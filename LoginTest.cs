@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -45,6 +45,19 @@ namespace LoginAutomationTest
                 throw;
             }
         }
+
+        // Create Negative test for invalid login
+        [Test]
+        public void InvalidLoginTest()
+        {
+            driver.FindElement(By.Id("user-name")).SendKeys("locked_out_user");
+            driver.FindElement(By.Id("password")).SendKeys("wrong_password");
+            driver.FindElement(By.Id("login-button")).Click();
+
+            System.Threading.Thread.Sleep(2000);
+            Assert.That(driver.PageSource.Contains("Epic sadface"), Is.True, "Error message not shown for invalid login");
+        }
+
 
         [TearDown]
         public void Cleanup()
